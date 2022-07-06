@@ -37,7 +37,7 @@ def login_user(request):
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def register_user(request):
-    '''Handles the creation of a new gamer for authentication
+    '''Handles the creation of a new user for authentication
 
     Method arguments:
       request -- The full HTTP request object
@@ -49,7 +49,8 @@ def register_user(request):
         username=request.data['username'],
         password=request.data['password'],
         first_name=request.data['first_name'],
-        last_name=request.data['last_name']
+        last_name=request.data['last_name'],
+        email=request.data['email']
     )
 
     # Now save the extra info in the rareapi_rareuser table

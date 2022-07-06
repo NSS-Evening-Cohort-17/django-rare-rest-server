@@ -5,8 +5,6 @@
         "fields": {
             "bio": "Hi. It's me.",
             "profile_image_url": "https://cdn2.vectorstock.com/i/1000x1000/23/16/cartoon-woman-business-manager-occupation-vector-12652316.jpg",
-            "created_on": "2022-03-01",
-            "active": 1,
             "user": 1 
         }
     }
