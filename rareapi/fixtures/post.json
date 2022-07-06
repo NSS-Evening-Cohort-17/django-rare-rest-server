@@ -11,5 +11,31 @@
             "content": "This is where the content goes.",
             "approved": 1
         }
+    },
+    {
+        "model": "rareapi.post",
+        "pk": 2,
+        "fields": {
+            "user": 1,
+            "category": 1,
+            "title": "This is a test",
+            "publication_date": "2022-02-04",
+            "image_url": "https://vetstreet-brightspot.s3.amazonaws.com/48/bff310c82111e09b940050568d6ceb/file/Pointer-2-AP-645km081611.jpg",
+            "content": "This is where the content goes.",
+            "approved": 1
+        }
+    },
+    {
+        "model": "rareapi.post",
+        "pk": 3,
+        "fields": {
+            "user": 2,
+            "category": 1,
+            "title": "This is a test",
+            "publication_date": "2022-03-04",
+            "image_url": "https://www.akc.org/wp-content/uploads/2021/03/German-Shorthaired-Pointer-puppy-walking-through-a-grassy-field..jpg",
+            "content": "This is where the content goes.",
+            "approved": 1
+        }
     }
 ]
