@@ -9,6 +9,19 @@ from rareapi.models import Post, RareUser
 class PostView(ViewSet):
     """Rare posts view"""
     
+    def retrieve(self, request, pk):
+        """Handle GET request to get single post
+        
+        Returns:
+            Response -- JSON serialized post
+        """
+        try: 
+            post = Post.objects.get(pk=pk)
+            serializer = PostSerializer(post)
+            return Response(serializer.data)
+        except Post.DoesNotExist as ex:
+            return Response({'message': ex.args[0]}, status=status.HTTP_404_NOT_FOUND)
+    
     def list(self, request): 
         """Handle GET requests to get all posts
         
@@ -40,6 +53,11 @@ class PostView(ViewSet):
         serializer.is_valid(raise_exception=True)
         serializer.save(user=user)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
+    
+    def destroy(self, request, pk):
+        post = Post.objects.get(pk=pk)
+        post.delete()
+        return Response(None, status=status.HTTP_204_NO_CONTENT)
         
         
 class PostSerializer(serializers.ModelSerializer):
