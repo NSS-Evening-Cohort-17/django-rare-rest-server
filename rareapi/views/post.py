@@ -1,8 +1,8 @@
 """View module for handling requests about posts"""
-from django.http import HttpResponseServerError
 from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 from rest_framework import serializers, status
+from rest_framework.decorators import action
 from django.core.exceptions import ValidationError
 from rareapi.models import Post, RareUser
 
@@ -17,6 +17,15 @@ class PostView(ViewSet):
         """
         
         posts = Post.objects.all()
+        serializer = PostSerializer(posts, many=True)
+        return Response(serializer.data)
+    
+    @action(methods=['get'], detail=False)
+    def my_posts(self, request):
+        """Get request to display logged-in user's posts on the /posts/my_posts page"""
+        user = RareUser.objects.get(user=request.auth.user)
+        posts = Post.objects.all()
+        posts = posts.filter(user_id=user)
         serializer = PostSerializer(posts, many=True)
         return Response(serializer.data)
     
