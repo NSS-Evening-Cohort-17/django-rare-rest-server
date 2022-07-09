@@ -4,7 +4,8 @@ from rest_framework.response import Response
 from rest_framework import serializers, status
 from rest_framework.decorators import action
 from django.core.exceptions import ValidationError
-from rareapi.models import Post, RareUser
+from rareapi.models import Post, RareUser, Comment
+from rareapi.views.comment import CommentSerializer
 
 class PostView(ViewSet):
     """Rare posts view"""
@@ -40,6 +41,16 @@ class PostView(ViewSet):
         posts = Post.objects.all()
         posts = posts.filter(user_id=user)
         serializer = PostSerializer(posts, many=True)
+        return Response(serializer.data)
+    
+    @action(methods=['get'], detail=True)
+    def comments(self, request, pk):
+        """Get request to display comments on each post
+        """
+        comments = Comment.objects.all()
+        posts = Post.objects.get(pk=pk)
+        comments = comments.filter(post_id=posts)
+        serializer = CommentSerializer(comments, many=True)
         return Response(serializer.data)
     
     def create(self, request):
