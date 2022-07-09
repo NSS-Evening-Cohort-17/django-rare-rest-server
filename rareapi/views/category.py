@@ -1,4 +1,5 @@
 """View module for handling requests about categories"""
+from unicodedata import category
 from django.http import HttpResponseServerError
 from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
@@ -39,6 +40,11 @@ class CategoryView(ViewSet):
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
+    
+    def destroy(self, request, pk):
+        category = Category.objects.get(pk=pk)
+        category.delete()
+        return Response(None, status=status.HTTP_204_NO_CONTENT)
     
 class CategorySerializer(serializers.ModelSerializer):
     """JSON serializer for categories
