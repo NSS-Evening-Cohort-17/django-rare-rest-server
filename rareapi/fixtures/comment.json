@@ -8,5 +8,26 @@
             "content": "This is some comment content.",
             "created_on": "2022-05-02"
         }
+    },
+    {
+        "model": "rareapi.comment",
+        "pk": 2,
+        "fields": {
+            "post": 1,
+            "author": 1,
+            "content": "This is more comment content.",
+            "created_on": "2022-06-02"
+        }
+    },
+    {
+        "model": "rareapi.comment",
+        "pk": 3,
+        "fields": {
+            "post": 3,
+            "author": 2,
+            "content": "This is some comment content.",
+            "created_on": "2022-05-02"
+        }
     }
+
 ]
