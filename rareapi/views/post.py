@@ -36,7 +36,7 @@ class PostView(ViewSet):
     
     @action(methods=['get'], detail=False)
     def my_posts(self, request):
-        """Get request to display logged-in user's posts on the /posts/my_posts page"""
+        """Get request to display logged-in user's posts on /posts/my_posts page"""
         user = RareUser.objects.get(user=request.auth.user)
         posts = Post.objects.all()
         posts = posts.filter(user_id=user)
@@ -52,6 +52,16 @@ class PostView(ViewSet):
         comments = comments.filter(post_id=posts)
         serializer = CommentSerializer(comments, many=True)
         return Response(serializer.data)
+    
+    @action(methods=['get'], detail=False)
+    def my_comments(self, request):
+        """Get request to display all logged-in user's comments on /posts/my_comments """
+        user = RareUser.objects.get(user=request.auth.user)
+        comments = Comment.objects.all()
+        comments = comments.filter(author=user)
+        serializer = CommentSerializer(comments, many=True)
+        return Response(serializer.data)
+        
     
     def create(self, request):
         """Handle POST operations
