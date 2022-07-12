@@ -1,4 +1,4 @@
-"""View module for handlign requests for comments"""
+"""View module for handling requests for comments"""
 from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 from rest_framework import serializers, status
@@ -27,11 +27,16 @@ class CommentView(ViewSet):
             Response -- JSON serialized post instance
         """
         
-        user = RareUser.objects.get(user=request.auth.user)
+        author = RareUser.objects.get(user=request.auth.user)
         serializer = CreateCommentSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        serializer.save(author=user)
+        serializer.save(author=author)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
+    
+    def destroy(self, request, pk):
+        comment = Comment.objects.get(pk=pk)
+        comment.delete()
+        return Response(None, status=status.HTTP_204_NO_CONTENT)
      
 class CommentSerializer(serializers.ModelSerializer):
     """JSON serializer for comments
@@ -40,11 +45,11 @@ class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
         fields = ['id', 'post', 'author', 'content', 'created_on']
-        depth = 3
+        depth = 4
         
 class CreateCommentSerializer(serializers.ModelSerializer):
     """JSON serializer for comments
     """
     class Meta:
         model = Comment
-        fields = ['id', 'post', 'author', 'content', 'created_on']
+        fields = ['id', 'post', 'content', 'created_on']
