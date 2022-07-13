@@ -60,8 +60,7 @@ class PostView(ViewSet):
         comments = Comment.objects.all()
         comments = comments.filter(author=user)
         serializer = CommentSerializer(comments, many=True)
-        return Response(serializer.data)
-        
+        return Response(serializer.data) 
     
     def create(self, request):
         """Handle POST operations
@@ -74,6 +73,18 @@ class PostView(ViewSet):
         serializer.is_valid(raise_exception=True)
         serializer.save(user=user)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
+    
+    def update(self, request, pk):
+        """Handle PUT requests for a post
+        
+        Returns:
+        Response -- Empty body with 204 status code
+        """
+        post = Post.objects.get(pk=pk)
+        serializer = CreatePostSerializer(post, data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(None, status=status.HTTP_204_NO_CONTENT)
     
     def destroy(self, request, pk):
         post = Post.objects.get(pk=pk)
