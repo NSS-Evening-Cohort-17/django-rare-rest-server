@@ -4,7 +4,8 @@ from rest_framework.response import Response
 from rest_framework import serializers, status
 from rest_framework.decorators import action
 from django.core.exceptions import ValidationError
-from rareapi.models import RareUser
+from rareapi.models import RareUser, Post
+from rareapi.models.subscription import Subscription
 
 class UserView(ViewSet):
     """Rare users view"""
@@ -34,6 +35,7 @@ class UserView(ViewSet):
         serializer = UserSerializer(users, many=True)
         return Response(serializer.data)
     
+     
 class UserSerializer(serializers.ModelSerializer):
     """JSON serialize for users
     """
