@@ -17,7 +17,7 @@
         "model": "rareapi.tag",
         "pk": 3,
         "fields": {
-            "label": "difficult"
+            "label": "cute"
         }
     }
 ]
