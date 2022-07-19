@@ -1,10 +1,14 @@
 """View module for handling requests about posts"""
+from urllib.request import url2pathname
+from wsgiref.util import request_uri
+from django import urls
+from django.forms import URLField
 from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 from rest_framework import serializers, status
 from rest_framework.decorators import action
 from django.core.exceptions import ValidationError
-from rareapi.models import Post, RareUser, Comment
+from rareapi.models import Post, RareUser, Comment, Subscription
 from rareapi.views.comment import CommentSerializer
 
 class PostView(ViewSet):
@@ -62,6 +66,23 @@ class PostView(ViewSet):
         serializer = CommentSerializer(comments, many=True)
         return Response(serializer.data) 
     
+    @action(methods=['get'], detail=False)
+    def subscribed(self, request):
+        """Get request to display posts of authors logged-in user is subscribed to """
+        posts = Post.objects.all()
+        subs = Subscription.objects.all()
+        user = RareUser.objects.get(user=request.auth.user)
+        user_subs = subs.filter(follower=user)
+        if len(user_subs) > 0:
+            for user_sub in user_subs:
+                posts = posts.filter(user=user_sub.author)
+                print('x'*100, posts)
+        else:
+            posts=[]
+        serializer = PostSerializer(posts, many=True)
+        return Response(serializer.data)
+    
+   
     def create(self, request):
         """Handle POST operations
         

@@ -37,5 +37,31 @@
             "content": "This is where the content goes.",
             "approved": 1
         }
+    },
+    {
+        "model": "rareapi.post",
+        "pk": 4,
+        "fields": {
+            "user": 2,
+            "category": 1,
+            "title": "This is a test",
+            "publication_date": "2022-03-04",
+            "image_url": "https://tythedogguy.com/wp-content/uploads/2015/02/pointer.jpg",
+            "content": "This is where the content goes.",
+            "approved": 1
+        }
+    },
+    {
+        "model": "rareapi.post",
+        "pk": 5,
+        "fields": {
+            "user": 3,
+            "category": 1,
+            "title": "This is a test for Auntie Anne",
+            "publication_date": "2022-03-04",
+            "image_url": "https://mallmaverick.imgix.net/web/property_managers/42/properties/56/all/20210610204733/auntieannes-890x614.png",
+            "content": "This is where the content goes.",
+            "approved": 1
+        }
     }
 ]
