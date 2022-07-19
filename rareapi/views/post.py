@@ -1,4 +1,7 @@
 """View module for handling requests about posts"""
+from cProfile import label
+from unicodedata import category
+from rareapi.models.category import Category
 from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 from rest_framework import serializers, status
@@ -31,6 +34,10 @@ class PostView(ViewSet):
         """
         
         posts = Post.objects.all()
+        category = request.query_params.get('category', None)
+        if category is not None:
+            posts = posts.filter(category_id=category)
+            
         serializer = PostSerializer(posts, many=True)
         return Response(serializer.data)
     
@@ -90,7 +97,19 @@ class PostView(ViewSet):
         post = Post.objects.get(pk=pk)
         post.delete()
         return Response(None, status=status.HTTP_204_NO_CONTENT)
+    
+    def filter_by_category(self, request, pk):
+        """Handle GET requests for a post's category
         
+        Returns:
+            Response -- JSON serialized list of posts
+        """
+        posts = Post.objects.all()
+        category = request.query_params.get('category', None)
+        if category is not None:
+            posts = posts.filter(category_id=category)
+        serializer = PostSerializer(posts, many=True)
+        return Response(serializer.data)   
         
 class PostSerializer(serializers.ModelSerializer):
     """JSON serializer for posts
